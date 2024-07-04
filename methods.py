@@ -28,7 +28,7 @@ def create_asset_gdf(assets_csv: str, continents_gpkg: str):
     """
     logger.info("Creating asset geodataframe.")
     # read in the global power plant database
-    assets_df = pd.read_csv(assets_csv)
+    assets_df = pd.read_csv(assets_csv, low_memory=False)
     # convert the lat/long to a geodataframe
     assets_gdf = gpd.GeoDataFrame(
         assets_df, geometry=gpd.points_from_xy(assets_df.longitude, assets_df.latitude)
@@ -128,7 +128,7 @@ def create_request_json(
     return request_dict
 
 
-def get_result(request_dict: dict, result_file: str):
+def get_result(request_dict: dict, result_file: str, job_id_file: str):
     logger.info("Sending request to asset impact workflow.")
     http = urllib3.PoolManager(cert_reqs="CERT_NONE")
     urllib3.disable_warnings()
@@ -153,6 +153,8 @@ def get_result(request_dict: dict, result_file: str):
     json.loads(response.data)
     response_json = json.loads(response.data)
     jobID = response_json["jobID"]
+    with open(job_id_file, "w") as f:
+        f.write(jobID)
     logger.info("Job ID: %s", jobID)
     headers = {"Accept": "application/json"}
     headers.update(auth_dict)
