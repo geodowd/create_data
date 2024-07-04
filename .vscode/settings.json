@@ -1,0 +1,11 @@
+{
+    "editor.rulers": [
+        80, 88
+    ],
+    "editor.formatOnSave": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "black-formatter.importStrategy": "fromEnvironment",
+    "workbench.colorCustomizations": {},
+}

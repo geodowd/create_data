@@ -1,0 +1,4 @@
+urllib3
+geopandas
+python-dotenv
+ipykernel
